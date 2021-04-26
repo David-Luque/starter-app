@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import EditProject from './EditProject';
+import { Link } from 'react-router-dom';
 
 class projectDetails extends Component {
     
@@ -56,6 +58,29 @@ class projectDetails extends Component {
         }); 
     };
 
+    renderEditForm = ()=>{
+        if(!this.state.projectInfo.title){
+            this.getProjectInfo();
+        } else {
+            return(
+                <EditProject 
+                    theProject={this.state.projectInfo} 
+                    getProjectInfo={this.getProjectInfo} 
+                    {...this.props} //=> {...props} => so we can have 'this.props.history' in Edit.js
+                />
+            )
+        }
+    };
+
+    deleteProject = ()=>{
+        const projectId = this.props.match.params.id
+        axios.delete(`http//:localhost:5000/api/projects/${projectId}`)
+        .then(() => {
+            this.props.history.push('/projects');
+        })
+        .catch(err => console.log(err))
+    };
+
     render(){
         return(
             <article className="projectDetails">
@@ -65,6 +90,10 @@ class projectDetails extends Component {
                 <ol>
                     {this.state.projectInfo.tasks && this.displayTasks()}
                 </ol>
+                <hr />
+                <div>{this.renderEditForm()}</div>
+                <Link to={"/projects"}>Back to projects</Link>
+                <button onClick={this.deleteProject()}>DELETE PROJECT</button>
             </article>
         );
     };

@@ -29,7 +29,11 @@ class projectList extends Component {
                     <Link to={`/projects/${project._id}`}>
                         <h3>{project.title}</h3>
                     </Link>
-                    {/* <p>{project.description}</p> */}
+                    <ul>
+                        {project.tasks.map((task, index) =>{
+                            return <li key={index}>{task.title}</li>
+                        })}
+                    </ul>
                 </div>
             )
         });

@@ -34,6 +34,7 @@ class AddProject extends Component {
     render(){
         return(
             <div className="addProject" >
+                <h2>Create project</h2>
                 <form onSubmit={this.handleFormSubmit}>
                     <label>Title: </label>
                     <input type="text" name="title" value={this.state.title} onChange={(e)=>{this.handleChange(e)}} />

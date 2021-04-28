@@ -26,7 +26,7 @@ class addTask extends Component {
             description,
             projectId
         };
-        axios.post("http//:localhost:5000/api/tasks", task)
+        axios.post("http://localhost:5000/api/tasks", task)
         .then(()=>{
             this.props.getProjectInfo();
             this.setState({

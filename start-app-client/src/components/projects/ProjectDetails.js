@@ -51,12 +51,14 @@ class projectDetails extends Component {
         const projectInfoCopy = {...this.state.projectInfo};
         return projectInfoCopy.tasks.map((task) => {
             return(
-                <Link to={`projects/${this.state.projectInfo._id}/tasks/${task._id}`}>
                     <li key={task._id}>
-                        <h5>{task.title}</h5>
+                        <Link  to={`/projects/${this.state.projectInfo._id}/tasks/${task._id}`}>
+                            <h4>{task.title}</h4>
+                        </Link>
                         <p>{task.description}</p>
+                        <p>{task.isCompleted ? "DONE" : "Pending"}</p>
                     </li>
-                </Link>
+                
                 
             );
         }); 
@@ -78,7 +80,7 @@ class projectDetails extends Component {
 
     deleteProject = ()=>{
         const projectId = this.props.match.params.id
-        axios.delete(`http//:localhost:5000/api/projects/${projectId}`)
+        axios.delete(`http://localhost:5000/api/projects/${projectId}`)
         .then(() => {
             this.props.history.push('/projects');
         })
@@ -113,7 +115,7 @@ class projectDetails extends Component {
                 <br/>
                 <Link to={"/projects"}>Back to projects</Link>
                 <br/><br/><br/>
-                <button onClick={this.deleteProject()}>DELETE PROJECT</button>
+                <button onClick={()=>{this.deleteProject()}}>DELETE PROJECT</button>
             </article>
         );
     };

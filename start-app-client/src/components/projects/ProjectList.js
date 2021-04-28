@@ -42,7 +42,7 @@ class projectList extends Component {
     render(){
         return (
             <div>
-                {this.state.allProjects && this.renderAllProjects()}
+                {this.state.allProjects.length > 0 && this.renderAllProjects()}
                 <div>
                     <AddProject getData={()=>this.getAllProjects()} />
                 </div>

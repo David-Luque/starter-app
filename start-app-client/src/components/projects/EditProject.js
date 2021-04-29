@@ -7,7 +7,6 @@ class editProject extends Component {
         description: this.props.theProject.description
     };
 
-
     handleChange = (event)=>{
         const { name, value } = event.target;
         this.setState({ [name]: value });

@@ -19,7 +19,7 @@ class AddProject extends Component {
             title: this.state.title,
             description: this.state.description
         };
-        axios.post('http://localhost:5000/api/projects', newProject)
+        axios.post('http://localhost:5000/api/projects', newProject, {withCredentials:true})
         .then(()=>{
             this.props.getData();
             this.setState({

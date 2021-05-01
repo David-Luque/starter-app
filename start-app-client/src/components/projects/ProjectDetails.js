@@ -17,7 +17,7 @@ class projectDetails extends Component {
     componentDidUpdate = (prevProps)=>{
         if(prevProps.match.params.id !== this.props.match.params.id){
             const projectId = this.props.match.params.id;
-            axios.get(`http://localhost:5000/api/projects/${projectId}`)
+            axios.get(`http://localhost:5000/api/projects/${projectId}`, {withCredentials:true})
             .then(responseFromApi =>{
                 this.setState({ projectInfo: responseFromApi.data });
             })
@@ -27,7 +27,7 @@ class projectDetails extends Component {
 
     getProjectInfo = ()=>{
         const projectId = this.props.match.params.id;
-        axios.get(`http://localhost:5000/api/projects/${projectId}`)
+        axios.get(`http://localhost:5000/api/projects/${projectId}`, {withCredentials:true})
         .then(responseFromApi => {
             const projectInfo = responseFromApi.data;
             this.setState({ projectInfo });
@@ -80,7 +80,7 @@ class projectDetails extends Component {
 
     deleteProject = ()=>{
         const projectId = this.props.match.params.id
-        axios.delete(`http://localhost:5000/api/projects/${projectId}`)
+        axios.delete(`http://localhost:5000/api/projects/${projectId}`, {withCredentials:true})
         .then(() => {
             this.props.history.push('/projects');
         })
@@ -98,6 +98,17 @@ class projectDetails extends Component {
         };
     };
 
+    ownerCheck = (project)=>{
+        if(this.props.loggedInUser && project.owner === this.props.loggedInUser._id){
+            return(
+                <div>
+                    {this.renderEditForm()}
+                    {this.renderAddTaskForm()}
+                    <button onClick={()=>{this.deleteProject()}}>DELETE PROJECT</button>
+                </div>
+            );
+        }
+    };
 
     render(){
         return(
@@ -106,16 +117,13 @@ class projectDetails extends Component {
                 <p>{this.state.projectInfo.description}</p>
                 <hr />
                 {this.state.projectInfo.tasks && this.state.projectInfo.tasks.length > 0 && <h3>Tasks:</h3>}
-                {this.renderAddTaskForm()}
                 <ol>
                     {this.state.projectInfo.tasks && this.displayTasks()}
                 </ol>
                 <hr />
-                <div>{this.renderEditForm()}</div>
+                <div>{this.ownerCheck(this.state.projectId)}</div>
                 <br/>
                 <Link to={"/projects"}>Back to projects</Link>
-                <br/><br/><br/>
-                <button onClick={()=>{this.deleteProject()}}>DELETE PROJECT</button>
             </article>
         );
     };

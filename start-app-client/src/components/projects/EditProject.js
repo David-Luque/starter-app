@@ -15,7 +15,7 @@ class editProject extends Component {
     handleSubmit = (event)=>{
         event.preventDefault();
         const { title, description } = this.state;
-        axios.put(`http://localhost:5000/api/projects/${this.props.theProject._id}`, {title, description})
+        axios.put(`http://localhost:5000/api/projects/${this.props.theProject._id}`, {title, description}, {withCredentials:true})
         .then(() => {
             this.props.getProjectInfo();
             //this.props.history.push('/projects'); //==> after submitting the form, if we want redirect to '/projects'

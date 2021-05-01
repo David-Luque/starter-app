@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AuthService from './auth-service';
 
-class Signup extends Component {
+class Login extends Component {
 
     state = {
         username: "",
@@ -14,7 +14,7 @@ class Signup extends Component {
     handleFormSubmit = (event)=>{
         event.preventDefault();
         const { username, password } = this.state;
-        this.service.signup(username, password)
+        this.service.login(username, password)
         .then(response => {
             this.setState({
                 username: "",
@@ -41,12 +41,12 @@ class Signup extends Component {
                     <button>Sign up</button>
                 </form>
                 <p>
-                    Already have an account?
-                    <Link to={"/login"}>Log in</Link>
+                    Don't have account?
+                    <Link to={"/signup"}>Log in</Link>
                 </p>
             </div>
         );
     };
 };
 
-export default Signup;
+export default Login;

@@ -15,6 +15,20 @@ class AuthService {
         .catch(err => console.log(err))
     };
 
+    loggedIn = ()=>{
+        return this.service.get('/loggedIn')
+        .then(response => response.data)
+    };
+
+    login = (username, password)=>{
+        return this.service.post('/login', { username, password })
+        .then(response => response.data)
+    };
+
+    logout = ()=>{
+        return this.service.post('/logout', {})
+        .then(response => response.data)
+    };
 };
 
 export default AuthService;

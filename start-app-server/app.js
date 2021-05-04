@@ -35,16 +35,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
-app.use(session({
-  secret: "secret here",
-  resave: true,
-  saveUninitialized: true
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({

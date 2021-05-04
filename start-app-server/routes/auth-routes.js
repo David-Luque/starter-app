@@ -2,24 +2,30 @@ const express = require('express');
 const authRoutes = express.Router();
 const passport = require('passport');
 const bcrypt = require ('bcryptjs');
+
 const User = require('../models/user-model');
+
 
 authRoutes.post('/signup', (req, res, next)=>{
   const { username, password } = req.body;
 
   if(!username || !password){
     res.status(400).json({ message: 'Provide username and password' });
+    return;
   };
 
   if(password.length < 5){
     res.status(400).json({ message: 'Please make your password at least 6 characters long for security purposes' });
+    return;
   };
 
   User.findOne({ username }, (err, foundUser)=>{
+    
     if(err){
-      res.status(500).json({ message: 'Username check went bad' });
+      res.status(500).json({ message: 'Username check error' });
       return;
     };
+
     if(foundUser){
       res.status(400).json({ message: 'Username taken. Please, choose another one' });
       return;
@@ -28,25 +34,25 @@ authRoutes.post('/signup', (req, res, next)=>{
     const salt = bcrypt.genSaltSync(10);
     const hashpass = bcrypt.hashSync(password, salt);
 
-    const newUser = new User({
-      username,
+    const aNewUser = new User({
+      username: username,
       password: hashpass
     });
 
-    newUser.save(err => {
+    aNewUser.save(err => {
       if(err){
-        res.status(400).json({ message: 'Saving user to database went wrong' });
+        res.status(400).json({ message: 'Error saving user to database' });
         return;
       };
 
       // Automatically log in user after sign up: '.login()' is predefined passport method
-      req.login(newUser, (err)=>{
+      req.login(aNewUser, (err)=>{
         if(err){
-          res.status(500).json({ message: 'Login after signup went bad' });
+          res.status(500).json({ message: 'Error login after signup' });
         };
         // Send the user's information to the frontend.
         //We can use also: res.status(200).json(req.user);
-        res.status(200).json({ newUser });
+        res.status(200).json({ aNewUser });
       });
     });
   });
@@ -55,12 +61,12 @@ authRoutes.post('/signup', (req, res, next)=>{
 authRoutes.post('/login', (req, res, next)=>{
   passport.authenticate('local', (err, theUser, failureDetails)=>{
     if(err){
-      res.status(500).json({ message: 'Something went wrong authenticating user' });
+      res.status(500).json({ message: 'Error authenticating user' });
       return;
     };
 
     if(!theUser){
-      // "failureDetails" contains the error messages from our logic in "LocalStrategy"
+      // "failureDetails" contains the error messages from our logic in "LocalStrategy" { message: '...' }.
       res.status(401).json(failureDetails);
       return;
     };
@@ -68,7 +74,7 @@ authRoutes.post('/login', (req, res, next)=>{
     //save user in session
     req.login(theUser, (err)=>{
       if(err){
-        res.status(400).json({ message: 'Session save went bad' });
+        res.status(500).json({ message: 'Session error' });
         return;
       };
       // We are now logged in (that's why we can also send req.user)
@@ -80,7 +86,7 @@ authRoutes.post('/login', (req, res, next)=>{
 authRoutes.post('/logout', (req, res, next)=>{
   // req.logout() is defined by passport
   req.logout();
-  res.status(200).json({ message: 'Logout success!' });
+  res.status(200).json({ message: 'Log out success!' });
 });
 
 authRoutes.get('/loggedin', (req, res, next)=>{

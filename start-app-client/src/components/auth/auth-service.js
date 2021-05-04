@@ -12,7 +12,6 @@ class AuthService {
     signup = (username, password)=>{
         return this.service.post('/signup', { username, password })
         .then(response => response.data)
-        .catch(err => console.log(err))
     };
 
     loggedIn = ()=>{

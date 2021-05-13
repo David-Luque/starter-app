@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import ProjectService from '../Services/projects-service';
 
 class AddProject extends Component {
 
@@ -7,6 +7,8 @@ class AddProject extends Component {
         title: "",
         description: ""
     }
+
+    service = new ProjectService();
     
     handleChange = (event)=>{
         const { name, value } = event.target;
@@ -15,12 +17,10 @@ class AddProject extends Component {
 
     handleFormSubmit = (event)=>{
         event.preventDefault();
-        const newProject = {
-            title: this.state.title,
-            description: this.state.description
-        };
-        axios.post('http://localhost:5000/api/projects', newProject, {withCredentials:true})
-        .then(()=>{
+        const { title, description } = this.state;
+        this.service.addProject(title, description)
+        .then(response =>{
+            console.log(response)
             this.props.getData();
             this.setState({
                 title: "",

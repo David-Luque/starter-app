@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import AuthService from './auth-service';
+import { Link, withRouter } from 'react-router-dom';
+import AuthService from '../Services/auth-service';
 
 class Login extends Component {
 
@@ -21,6 +21,7 @@ class Login extends Component {
                 password: ""
             });
             this.props.getUser(response);
+            this.props.history.push("/projects");
         })
         .catch(err => console.log(err))
     };
@@ -38,15 +39,15 @@ class Login extends Component {
                     <input type="text" name="username" value={this.state.username} onChange={(e)=>{this.handleChange(e)}} />
                     <label>Password: </label>
                     <input type="password" name="password" value={this.state.password} onChange={(e)=>{this.handleChange(e)}} />
-                    <button>Sign up</button>
+                    <button>Log in</button>
                 </form>
                 <p>
                     Don't have account?
-                    <Link to={"/signup"}>Log in</Link>
+                    <Link to={"/signup"}>Sign Up</Link>
                 </p>
             </div>
         );
     };
 };
 
-export default Login;
+export default withRouter(Login);

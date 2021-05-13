@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import EditTask from './EditTask';
+import TaskService from "../Services/tasks-service";
 
 class taskDetails extends Component {
     
@@ -8,16 +8,17 @@ class taskDetails extends Component {
         taskInfo: {}
     };
 
+    service = new TaskService();
+
     componentDidMount = ()=>{
         this.getTaskInfo();
     };
 
     getTaskInfo = ()=>{
         const { projectId, taskId } = this.props.match.params;
-        axios.get(`http://localhost:5000/api/projects/${projectId}/tasks/${taskId}`)
+        this.service.getTask(projectId, taskId)
         .then(responseFromApi => {
-            const taskInfo = responseFromApi.data;
-            this.setState({ taskInfo });
+            this.setState({ taskInfo: responseFromApi });
         })
         .catch(err => console.log(err))
     };
@@ -31,8 +32,9 @@ class taskDetails extends Component {
     // };
 
     deleteTask = ()=>{
-        axios.delete(`http://localhost:5000/api/tasks/${this.state.taskInfo._id}`)
-        .then(()=>{
+        this.service.deleteTask(this.state.taskInfo._id)
+        .then((response)=>{
+            console.log(response)
             this.props.history.push(`/projects/${this.props.match.params.projectId}`)
         })
         .catch(err => console.log(err))

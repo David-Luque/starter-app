@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import EditProject from './EditProject';
 import { Link } from 'react-router-dom';
 import AddTask from '../tasks/AddTask';
+import ProjectService from '../Services/projects-service';
 
 class projectDetails extends Component {
     
     state = {
         projectInfo: {}
     }; 
+
+    service = new ProjectService();
     
     componentDidMount = ()=>{
         this.getProjectInfo();
@@ -17,9 +19,9 @@ class projectDetails extends Component {
     componentDidUpdate = (prevProps)=>{
         if(prevProps.match.params.id !== this.props.match.params.id){
             const projectId = this.props.match.params.id;
-            axios.get(`http://localhost:5000/api/projects/${projectId}`, {withCredentials:true})
+            this.service.projectDetails(projectId)
             .then(responseFromApi =>{
-                this.setState({ projectInfo: responseFromApi.data });
+                this.setState({ projectInfo: responseFromApi });
             })
             .catch(err => console.log(err))
         };
@@ -27,23 +29,22 @@ class projectDetails extends Component {
 
     getProjectInfo = ()=>{
         const projectId = this.props.match.params.id;
-        axios.get(`http://localhost:5000/api/projects/${projectId}`, {withCredentials:true})
+        this.service.projectDetails(projectId)
         .then(responseFromApi => {
-            const projectInfo = responseFromApi.data;
-            this.setState({ projectInfo });
+            this.setState({ projectInfo: responseFromApi });
         })
         .catch(err => console.log(err))
     };
 
     // displayPorjectInfo = ()=>{
     //     return(
-    //         <article>
+    //         <div>
     //             <h1>{this.state.projectInfo.title}</h1>
     //             <p>{this.state.projectInfo.description}</p>
     //             <ol>
     //                 {this.displayTasks()}
     //             </ol>
-    //         </article>
+    //         </div>
     //     )
     // };
     
@@ -80,8 +81,9 @@ class projectDetails extends Component {
 
     deleteProject = ()=>{
         const projectId = this.props.match.params.id
-        axios.delete(`http://localhost:5000/api/projects/${projectId}`, {withCredentials:true})
-        .then(() => {
+        this.service.deleteProject(projectId)
+        .then((response) => {
+            console.log(response);
             this.props.history.push('/projects');
         })
         .catch(err => console.log(err))

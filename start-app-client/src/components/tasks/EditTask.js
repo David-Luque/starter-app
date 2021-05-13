@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import TaskService from "../Services/tasks-service";
 
 class editTask extends Component {
     state = {
         title: this.props.taskInfo.title,
         description: this.props.taskInfo.description,
         isCompleted: this.props.taskInfo.isCompleted
-    }
+    };
+
+    service = new TaskService();
 
     handleChange = (event)=>{
         const { name, value } = event.target;
@@ -16,10 +18,10 @@ class editTask extends Component {
     handleSubmit = (event)=>{
         event.preventDefault();
         const { title, description, isCompleted } = this.state;
-        axios.put(`http://localhost:5000/api/tasks/${this.props.taskInfo._id}`, { title, description, isCompleted })
+        const taskId = this.props.taskInfo._id;
+        this.service.editTask(taskId, title, description, isCompleted)
         .then(() => {
             this.props.getTaskInfo();
-            //this.props.history.push(`/projects/${this.props.match.params.projectId}`);
         })
         .catch(err => console.log(err))
     };

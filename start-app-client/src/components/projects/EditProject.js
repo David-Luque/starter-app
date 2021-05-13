@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import ProjectService from '../Services/projects-service';
 
 class editProject extends Component {
     state = {
         title: this.props.theProject.title,
         description: this.props.theProject.description
     };
+
+    service = new ProjectService();
 
     handleChange = (event)=>{
         const { name, value } = event.target;
@@ -15,10 +17,10 @@ class editProject extends Component {
     handleSubmit = (event)=>{
         event.preventDefault();
         const { title, description } = this.state;
-        axios.put(`http://localhost:5000/api/projects/${this.props.theProject._id}`, {title, description}, {withCredentials:true})
+        const projectId = this.props.theProject._id;
+        this.service.editProject(projectId, title, description)
         .then(() => {
             this.props.getProjectInfo();
-            //this.props.history.push('/projects'); //==> after submitting the form, if we want redirect to '/projects'
         })
         .catch(err => console.log(err))
     };

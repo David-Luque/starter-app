@@ -1,7 +1,7 @@
 import { Component } from "react";
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddProject from './AddProject';
+import ProjectService from '../Services/projects-service';
 
 class projectList extends Component {
 
@@ -9,14 +9,16 @@ class projectList extends Component {
         allProjects: []
     };
 
+    service = new ProjectService();
+
     componentDidMount = ()=>{
         this.getAllProjects();
     };
 
     getAllProjects = ()=>{
-        axios.get('http://localhost:5000/api/projects', {withCredentials:true})
+        this.service.allProjects(this.props.user._id)
         .then(resFromApi => {
-            this.setState({ allProjects: resFromApi.data });
+            this.setState({ allProjects: resFromApi });
         })
         .catch(err => {console.log(err)})
     };
@@ -44,7 +46,7 @@ class projectList extends Component {
             <div>
                 {this.state.allProjects.length > 0 && this.renderAllProjects()}
                 <div>
-                    <AddProject getData={()=>this.getAllProjects()} />
+                    <AddProject getData={this.getAllProjects} />
                 </div>
             </div>
         );

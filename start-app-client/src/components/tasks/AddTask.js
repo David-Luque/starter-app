@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import TaskService from "../Services/tasks-service";
 
 class addTask extends Component {
     state = {
@@ -7,6 +7,8 @@ class addTask extends Component {
         description: "",
         isShowingForm: false
     };
+
+    service = new TaskService();
 
     toggleShowForm = ()=>{
         this.setState({ isShowingForm: !this.state.isShowingForm });
@@ -20,14 +22,10 @@ class addTask extends Component {
     handleFormSubmit=(event)=>{
         event.preventDefault();
         const { title, description } = this.state;
-        const projectId = this.props.theProject._id
-        const task = {
-            title,
-            description,
-            projectId
-        };
-        axios.post("http://localhost:5000/api/tasks", task)
-        .then(()=>{
+        const project = this.props.theProject._id
+        this.service.createTask(title, description, project)
+        .then(response =>{
+            console.log(response)
             this.props.getProjectInfo();
             this.setState({
                 title: "",

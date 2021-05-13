@@ -8,8 +8,15 @@ import Navbar from './components/navbar/Navbar';
 import TaskDetails from './components/tasks/TaskDetails';
 import Signup from './components/auth/Signup'
 import Login from './components/auth/Login';
-import AuthService from './components/auth/auth-service';
+import AuthService from './components/Services/auth-service';
 import ProtectedRoute from './components/auth/protected-route';
+
+
+// TODO: test all routes with new services
+// TODO: review protected routes
+// TODO: integrate file uploads in client and server
+
+// TODO: deploy
 
 class App extends Component {
   

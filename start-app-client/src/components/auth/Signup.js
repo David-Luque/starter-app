@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import AuthService from './auth-service';
+import { Link, withRouter } from 'react-router-dom';
+import AuthService from '../Services/auth-service';
 
 class Signup extends Component {
 
@@ -20,7 +20,8 @@ class Signup extends Component {
                 username: "",
                 password: ""
             });
-            this.props.getUser(response);
+            this.props.getUser(response.aNewUser);
+            this.props.history.push("/projects");
         })
         .catch(err => console.log(err))
     };
@@ -49,4 +50,4 @@ class Signup extends Component {
     };
 };
 
-export default Signup;
+export default withRouter(Signup);

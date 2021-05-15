@@ -5,6 +5,7 @@ class addTask extends Component {
     state = {
         title: "",
         description: "",
+        imageUrl: "",
         isShowingForm: false
     };
 
@@ -21,19 +22,31 @@ class addTask extends Component {
 
     handleFormSubmit=(event)=>{
         event.preventDefault();
-        const { title, description } = this.state;
+        const { title, description, imageUrl } = this.state;
         const project = this.props.theProject._id
-        this.service.createTask(title, description, project)
+        this.service.createTask(title, description, imageUrl, project)
         .then(response =>{
             console.log(response)
             this.props.getProjectInfo();
             this.setState({
                 title: "",
-                description: ""
+                description: "",
+                imageUrl: ""
             });
         })
         .catch(err => {console.log(err)})
     };
+
+    handleFileUpload = (e)=>{
+        const uploadData = new FormData();
+        uploadData.append("imageUrl", e.target.files[0]);
+        this.service.fileUpload(uploadData)
+        .then(response => {
+            this.setState({ imageUrl: response.secure_url });
+        })
+        .catch(err => console.log("Error uploading file", err))
+    };
+
 
     showAddTaskForm = ()=>{
         return(
@@ -44,6 +57,8 @@ class addTask extends Component {
                     <input type="text" name="title" value={this.state.title} onChange={(e)=>{this.handleChange(e)}} />
                     <label>Description: </label>
                     <textarea name="description" value={this.state.description} onChange={(e)=>{this.handleChange(e)}} />
+                    <label>Image:</label>
+                    <input type="file" onChange={(e)=>{this.handleFileUpload(e)}} />
                     <button>Confirm</button>
                 </form> 
             </div>

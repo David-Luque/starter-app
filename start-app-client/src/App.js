@@ -12,9 +12,8 @@ import AuthService from './components/Services/auth-service';
 import ProtectedRoute from './components/auth/protected-route';
 
 
-// TODO: test all routes with new services
-// TODO: review protected routes
 // TODO: integrate file uploads in client and server
+// TODO: test all routes with new services and redirects
 
 // TODO: deploy
 

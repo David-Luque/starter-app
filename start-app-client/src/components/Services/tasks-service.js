@@ -14,13 +14,18 @@ class TaskService {
         .then(response => response.data)
     };
 
-    createTask = (title, description, project)=>{
-        return this.service.post('tasks', { title, description, project })
+    createTask = (title, description, imageUrl, project)=>{
+        return this.service.post('tasks', { title, description, imageUrl, project })
         .then(response => response.data)
     };
 
     editTask = (taskId, title, desription, isCompleted)=>{
         return this.service.put(`/tasks/${taskId}`, { title, desription, isCompleted })
+        .then(response => response.data)
+    };
+
+    fileUpload = (theFile)=>{
+        return this.service.post('/upload', theFile)
         .then(response => response.data)
     };
 

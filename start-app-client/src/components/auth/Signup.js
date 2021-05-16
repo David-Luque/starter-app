@@ -20,6 +20,7 @@ class Signup extends Component {
                 username: "",
                 password: ""
             });
+            console.log(response)
             this.props.getUser(response.aNewUser);
             this.props.history.push("/projects");
         })

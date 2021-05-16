@@ -36,17 +36,14 @@ class projectDetails extends Component {
         .catch(err => console.log(err))
     };
 
-    // displayPorjectInfo = ()=>{
-    //     return(
-    //         <div>
-    //             <h1>{this.state.projectInfo.title}</h1>
-    //             <p>{this.state.projectInfo.description}</p>
-    //             <ol>
-    //                 {this.displayTasks()}
-    //             </ol>
-    //         </div>
-    //     )
-    // };
+    displayPorjectInfo = ()=>{
+        return(
+            <div>
+                <h1>{this.state.projectInfo.title}</h1>
+                <p>{this.state.projectInfo.description}</p>
+            </div>
+        )
+    };
     
     displayTasks = ()=>{
         const projectInfoCopy = {...this.state.projectInfo};
@@ -100,8 +97,8 @@ class projectDetails extends Component {
         };
     };
 
-    ownerCheck = (project)=>{
-        if(this.props.loggedInUser && project.owner === this.props.loggedInUser._id){
+    ownerCheck = ()=>{
+        if(this.props.loggedInUser && this.state.projectInfo.owner === this.props.loggedInUser._id){
             return(
                 <div>
                     {this.renderEditForm()}
@@ -115,8 +112,7 @@ class projectDetails extends Component {
     render(){
         return(
             <article className="projectDetails">
-                <h1>{this.state.projectInfo.title}</h1>
-                <p>{this.state.projectInfo.description}</p>
+                {this.state.projectInfo.title && this.displayPorjectInfo()}
                 <hr />
                 {this.state.projectInfo.tasks && this.state.projectInfo.tasks.length > 0 && <h3>Tasks:</h3>}
                 <ol>

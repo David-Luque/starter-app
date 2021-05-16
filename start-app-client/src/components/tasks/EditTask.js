@@ -15,11 +15,11 @@ class editTask extends Component {
         this.setState({ [name]: value });
     };
 
-    handleSubmit = (event)=>{
+    handleFormSubmit = (event)=>{
         event.preventDefault();
-        const { title, description, isCompleted } = this.state;
+        const { title, description, isCompleted, imageUrl } = this.state;
         const taskId = this.props.taskInfo._id;
-        this.service.editTask(taskId, title, description, isCompleted)
+        this.service.editTask(taskId, title, description, isCompleted, imageUrl)
         .then(() => {
             this.props.getTaskInfo();
         })
@@ -30,7 +30,7 @@ class editTask extends Component {
     render(){
         return(
             <div>
-                <form onSubmit={()=>{this.handleSubmit()}}>
+                <form onSubmit={(e)=>{this.handleFormSubmit(e)}}>
                     <label> Title: </label>
                     <input type="text" name="title" value={this.state.title} onChange={(e)=>{this.handleChange(e)}} />
                     <label>Description: </label>

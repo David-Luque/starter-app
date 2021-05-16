@@ -24,7 +24,12 @@ class taskDetails extends Component {
     };
 
     changeTaskStatus = ()=>{
-        this.setState({ taskInfo: {...this.state.taskInfo, isCompleted: !this.state.taskInfo.isCompleted} });
+        this.setState({ 
+            taskInfo: {...this.state.taskInfo, isCompleted: !this.state.taskInfo.isCompleted} 
+        });
+        const { _id, title, desription, isCompleted } = this.state.taskInfo
+        this.service.editTask(_id, title, desription, isCompleted)
+        .then(response => console.log(response))
     };
 
     // toggleEditTaskForm = ()=>{
@@ -62,6 +67,8 @@ class taskDetails extends Component {
                 <button onClick={()=>{this.changeTaskStatus()}}>
                     {this.state.taskInfo.isCompleted ? "DONE" : "Pending"}
                 </button>
+                <hr />
+                <img src={this.state.taskInfo.imageUrl} alt={`${this.state.taskInfo.title}`} />
                 <hr />
                 {this.renderEditForm()}
                 <hr />

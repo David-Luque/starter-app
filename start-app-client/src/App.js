@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import ProjectList from './components/projects/ProjectList';
 import ProjectDetails from './components/projects/ProjectDetails';
@@ -12,10 +12,12 @@ import AuthService from './components/Services/auth-service';
 import ProtectedRoute from './components/auth/protected-route';
 
 
-// TODO: integrate file uploads in client and server
-// TODO: test all routes with new services and redirects
+// TODO: test all project routes (API TODO OK)
+// TODO: test all tasks routes (API TODO OK)
+// TODO: fix tasks status save
 
 // TODO: deploy
+
 
 class App extends Component {
   
@@ -50,9 +52,9 @@ class App extends Component {
         <div className="App">
           <Navbar userInSession={this.state.loggedInUser} getUser={this.getTheUser} />
           <Switch>
-            <ProtectedRoute user={this.state.loggedInUser} path="/projects" component={ProjectList} />
-            <ProtectedRoute user={this.state.loggedInUser} path="/projects/:id" component={ProjectDetails} />
-            <ProtectedRoute user={this.state.loggedInUser} path="/projects/:projectId/tasks/:taskId" component={TaskDetails} />
+            <ProtectedRoute user={this.state.loggedInUser} exact path="/projects" component={ProjectList} />
+            <ProtectedRoute user={this.state.loggedInUser} exact path="/projects/:id" component={ProjectDetails} />
+            <ProtectedRoute user={this.state.loggedInUser} exact path="/projects/:projectId/tasks/:taskId" component={TaskDetails} />
           </Switch>
         </div>
       );
@@ -63,9 +65,9 @@ class App extends Component {
           <Switch>
             <Route exact path="/signup" render={()=> <Signup getUser={this.getTheUser} />} />
             <Route exact path = "/login" render={()=> <Login getUser={this.getTheUser} /> } />
-            <ProtectedRoute user={this.state.loggedInUser} path="/projects" component={ProjectList} />
-            <ProtectedRoute user={this.state.loggedInUser} path="/projects/:id" component={ProjectDetails} />
-            <ProtectedRoute user={this.state.loggedInUser} path="/projects/:projectId/tasks/:taskId" component={TaskDetails} />
+            <ProtectedRoute user={this.state.loggedInUser} exact path="/projects" component={ProjectList} />
+            <ProtectedRoute user={this.state.loggedInUser} exact path="/projects/:id" component={ProjectDetails} />
+            <ProtectedRoute user={this.state.loggedInUser} exact path="/projects/:projectId/tasks/:taskId" component={TaskDetails} />
           </Switch>
         </div>
       );

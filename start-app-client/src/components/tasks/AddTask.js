@@ -23,10 +23,9 @@ class addTask extends Component {
     handleFormSubmit=(event)=>{
         event.preventDefault();
         const { title, description, imageUrl } = this.state;
-        const project = this.props.theProject._id
-        this.service.createTask(title, description, imageUrl, project)
-        .then(response =>{
-            console.log(response)
+        const projectId = this.props.theProject._id
+        this.service.createTask(title, description, imageUrl, projectId)
+        .then(()=>{
             this.props.getProjectInfo();
             this.setState({
                 title: "",
@@ -38,10 +37,12 @@ class addTask extends Component {
     };
 
     handleFileUpload = (e)=>{
+        //console.log(e.target.files[0])
         const uploadData = new FormData();
-        uploadData.append("imageUrl", e.target.files[0]);
+        uploadData.append('imageUrl', e.target.files[0]);
         this.service.fileUpload(uploadData)
         .then(response => {
+            console.log(response)
             this.setState({ imageUrl: response.secure_url });
         })
         .catch(err => console.log("Error uploading file", err))

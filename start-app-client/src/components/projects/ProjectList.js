@@ -16,7 +16,7 @@ class projectList extends Component {
     };
 
     getAllProjects = ()=>{
-        this.service.allProjects(this.props.user._id)
+        this.service.allProjects()
         .then(resFromApi => {
             this.setState({ allProjects: resFromApi });
         })

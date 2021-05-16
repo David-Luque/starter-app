@@ -18,7 +18,7 @@ router.post('/projects', (req, res, next)=>{
 
 
 router.get('/projects', (req, res, next)=>{
-  Project.find({ owner: req.body.userId })
+  Project.find({ owner: req.user._id })
   .populate('tasks')
   .then(allProjects => {res.json(allProjects)})
   .catch(err => res.json(err))

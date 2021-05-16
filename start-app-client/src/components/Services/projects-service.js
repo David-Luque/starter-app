@@ -9,8 +9,8 @@ class ProjectService {
         this.service = service;
     }
 
-    allProjects = (userId)=>{
-        return this.service.get("/", { userId })
+    allProjects = ()=>{
+        return this.service.get('/')
         .then(response => response.data)
     };
 

@@ -19,13 +19,15 @@ router.get('/projects/:projectId/tasks/:taskId',(req, res, next)=>{
 
 
 router.post('/tasks', (req, res, next)=>{
+  const { title, description, imageUrl, projectId } = req.body;
   Task.create({
-    title: req.body.title,
-    description: req.body.description,
-    project: req.body.projectId
+    title,
+    description,
+    imageUrl,
+    project: projectId
   })
   .then(response => {
-    return Project.findByIdAndUpdate(req.body.projectId, {
+    return Project.findByIdAndUpdate(projectId, {
       $push: {tasks: response._id}
     })
     .then(theResponse => {res.json(theResponse)})

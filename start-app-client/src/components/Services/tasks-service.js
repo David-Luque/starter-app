@@ -14,13 +14,14 @@ class TaskService {
         .then(response => response.data)
     };
 
-    createTask = (title, description, imageUrl, project)=>{
-        return this.service.post('tasks', { title, description, imageUrl, project })
+    createTask = (title, description, imageUrl, projectId)=>{
+        console.log(projectId)
+        return this.service.post('/tasks', { title, description, imageUrl, projectId })
         .then(response => response.data)
     };
 
-    editTask = (taskId, title, desription, isCompleted)=>{
-        return this.service.put(`/tasks/${taskId}`, { title, desription, isCompleted })
+    editTask = (taskId, title, description, isCompleted, imageUrl)=>{
+        return this.service.put(`/tasks/${taskId}`, { title, description, isCompleted, imageUrl })
         .then(response => response.data)
     };
 

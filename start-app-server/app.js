@@ -13,6 +13,7 @@ const passport     = require('passport');
 
 require('./configs/passport');
 require('./configs/database-config');
+require('./configs/cloudinary-config')
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
@@ -62,6 +63,7 @@ app.use('/api', index);
 app.use('/api', require('./routes/project-routes'))
 app.use('/api', require('./routes/task-routes'));
 app.use('/api', require('./routes/auth-routes'));
+app.use('/api', require('./routes/uploads-routes'));
 
 module.exports = app;
 

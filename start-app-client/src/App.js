@@ -12,11 +12,7 @@ import AuthService from './components/Services/auth-service';
 import ProtectedRoute from './components/auth/protected-route';
 
 
-// TODO: test all project routes (API TODO OK)
-// TODO: test all tasks routes (API TODO OK)
-// TODO: fix tasks status save
-
-// TODO: deploy
+// TODO: deploy backend and frontend
 
 
 class App extends Component {

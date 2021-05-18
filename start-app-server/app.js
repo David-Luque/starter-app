@@ -54,7 +54,7 @@ app.locals.title = 'Express - Developed by David';
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000']
+  origin: [process.env.FRONTEND_POINT]
 }));
 
 
